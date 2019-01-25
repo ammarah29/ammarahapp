@@ -1,16 +1,19 @@
 package com.example.ammarahahmad.ammarahapp
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.support.v7.app.AppCompatActivity
 import android.util.Log
-import android.widget.Button
+import android.view.animation.BounceInterpolator
+import android.view.animation.ScaleAnimation
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 
+
 class MainActivity : AppCompatActivity() {
 
-    internal lateinit var tapMeButton: Button
+    internal lateinit var tapMeImageView: ImageView
     internal lateinit var gameScoreTextView: TextView
     internal lateinit var timeLeftTextView: TextView
     internal var score = 0
@@ -26,19 +29,22 @@ class MainActivity : AppCompatActivity() {
         private val TIME_LEFT_KEY = "TIME_LEFT_KEY"
     }
 
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         Log.d(TAG, "onCreate called. Score is: $score")
-        tapMeButton = findViewById<Button>(R.id.tap_me_button)
-        gameScoreTextView = findViewById<TextView>(R.id.game_score_text_view)
-        timeLeftTextView = findViewById<TextView>(R.id.time_left_text_view)
+        tapMeImageView = findViewById(R.id.tap_me_button)
+        gameScoreTextView = findViewById(R.id.game_score_text_view)
+        timeLeftTextView = findViewById(R.id.time_left_text_view)
         resetGame()
 
-        tapMeButton.setOnClickListener{ view ->
+        val bounce = ScaleAnimation(1.2f, 1f, 1.2f, 1f, 50f, 50f)
+        bounce.duration = 600
+        bounce.interpolator = BounceInterpolator()
+
+        tapMeImageView.setOnClickListener{ view ->
             incrementScore()
+            tapMeImageView.startAnimation(bounce)
         }
     }
 
